@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 const requireLogin = require('../middlewares/requireLogin');
 
+//we write a middleware so we do not need it any more
+//const {clearHash}=require('../services/cache');
+
+const cleanHash=require('../middlewares/cleanCash');
+
 const Blog = mongoose.model('Blog');
 
 module.exports = app => {
@@ -43,11 +48,12 @@ module.exports = app => {
     client.set(req.user.id,JSON.stringify(blogs));  */
 
     //global cache
-    const blogs = await Blog.find({ _user: req.user.id }).cache();
+    const blogs = await Blog.find({ _user: req.user.id })
+    .cache({key:req.user.id});
     res.send(blogs);
   });
 
-  app.post('/api/blogs', requireLogin, async (req, res) => {
+  app.post('/api/blogs', requireLogin,cleanHash, async (req, res) => {
     const { title, content } = req.body;
 
     const blog = new Blog({
@@ -62,5 +68,12 @@ module.exports = app => {
     } catch (err) {
       res.send(400, err);
     }
+    //after every post cache should be deleted
+    console.log("clear hash user id:"+req.user.id);
+    
+    /**
+     * instead of using this line, we write a middleware to do this for us
+     */
+    //clearHash(req.user.id);
   });
 };
