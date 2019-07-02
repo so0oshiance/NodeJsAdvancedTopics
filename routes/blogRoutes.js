@@ -4,7 +4,7 @@ const requireLogin = require('../middlewares/requireLogin');
 //we write a middleware so we do not need it any more
 //const {clearHash}=require('../services/cache');
 
-const cleanHash=require('../middlewares/cleanCash');
+const cleanHash=require('../middlewares/cleanCache');
 
 const Blog = mongoose.model('Blog');
 
