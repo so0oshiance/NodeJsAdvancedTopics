@@ -18,11 +18,20 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(
+  /**
+   *cookieSession would maintain session in any incomming request, so if any user authenticated
+   in in our app we store its data in the cookie. cookiesession manages data in the cookie
+   
+   */
   cookieSession({
     maxAge: 30 * 24 * 60 * 60 * 1000,
     keys: [keys.cookieKey]
   })
 );
+/**
+ * we use passport to handle authentication inside our app
+ * in particular will handle our google oAuth process
+ */
 app.use(passport.initialize());
 app.use(passport.session());
 
