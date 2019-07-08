@@ -48,7 +48,8 @@ test("The header has the correct text",async()=>{
     // Js to achieve this text would be : $('a.brand-logo').innerHTML (test it in console browser)
     
     await page.waitFor('a.brand-logo');
-    const text= await page.$eval('a.brand-logo', el=>el.innerHTML);
+    //in page file we write getContentsOf function to get rid of wiered codes! visit that func
+    const text= await page.getContentsOf('a.brand-logo');
     expect(text).toEqual('Blogster')
 });
 test("clicking login start oauth flow",async()=>{
@@ -133,7 +134,7 @@ test("Show logout when user signed in",async()=>{
      * this is 1 line of code simply create a new user and logged in to our app!
      */
     await page.login();
-    const text= await page.$eval('a[href="/auth/logout"]', el=>el.innerHTML);
+    const text= await page.getContentsOf('a[href="/auth/logout"]');
     expect(text).toEqual('Logout');
     
 });

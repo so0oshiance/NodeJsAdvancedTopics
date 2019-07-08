@@ -39,9 +39,16 @@ class CustomPage{
 
         await this.page.setCookie({name:"session",value:session});
         await this.page.setCookie({name:"session.sig",value:sig});
-        await this.page.goto('localhost:3000');
+        await this.page.goto('localhost:3000/blogs');
         await this.page.waitFor('a[href="/auth/logout"]');
 
+    }
+    /**
+     *  await page.$eval('a[href="/auth/logout"]', el=>el.innerHTML) code is some kind of
+     * weired! we wanna make the use of it more easy here...
+     */
+     async getContentsOf(selector){
+        return await this.page.$eval(selector, el=>el.innerHTML);
     }
 }
 module.exports=CustomPage;

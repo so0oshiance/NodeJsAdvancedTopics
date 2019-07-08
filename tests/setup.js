@@ -1,4 +1,10 @@
 require('../models/User');
+/**
+ * by defaut JEST would give any test to pass or fail in just 5seconds !
+ * absolutely it is not enough for some of our test, to launch browser,click,check and so on...
+ * so we wanna rewirte the default settings of JEST here...
+ */
+jest.setTimeout(60000);//30 seconds
 
 const mongoose=require('mongoose');
 const keys=require('../config/keys');
