@@ -7,6 +7,11 @@ node_js:
 dist: trusty
 # we should specify what mandatory softwares are using by our project. 
 #we do this with service tag
+addons:
+  chrome: stable
+  hostname: localhost
+before_install:
+  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
 services: 
   - mongodb
   - redis-server
@@ -36,5 +41,5 @@ script:
 # to answer request, so we put sllep tag to pause our server here for 3 sec and after that
 # app will respond requests. this will prevent test failings, becuase maybe before our server
 # runs properly test being started and gets no response ! test sleep 3 in your terminal!
-  - sleep 3
+  - sleep 10
   - npm run test

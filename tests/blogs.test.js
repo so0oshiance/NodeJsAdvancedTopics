@@ -17,7 +17,7 @@ afterEach(async()=>{
  * so we can now read the  '' messages like this for tests in a describe :
  *  'when logged in , can see blog create form'
  */
-describe('when we logged in',async()=>{
+describe.only('when we logged in',async()=>{
     beforeEach(async()=>{
         await page.login();
         await page.click('a.btn-floating');
@@ -77,7 +77,7 @@ describe('when we logged in',async()=>{
 
 });
 
-describe.only('User is not logged in',async()=>{
+describe('User is not logged in',async()=>{
     test('can not create a blog post',async()=>{
     /**
      * we want to simulate user making blog post without login,also we can implement this 
