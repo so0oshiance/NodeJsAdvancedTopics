@@ -1,0 +1,40 @@
+language: node_js
+# this way of writin version for node_js would be like this in JSON:
+# node_js:["8"]
+node_js:
+  - "8"
+# trusty is tiny version linux for tiny VMs. dist refer to distribution 
+dist: trusty
+# we should specify what mandatory softwares are using by our project. 
+#we do this with service tag
+services: 
+  - mongodb
+  - redis-server
+# our enviroment variables in project in env tag
+# in the config folder of prj, we have keys file that would determine in which situation
+# it sould use which keys. you can see ci envitoment key there. So we should set that here
+env:
+  - NODE_ENV=ci
+# after build react no nead server so we want our server siide run on 3000
+  - PORT=3000
+# we wanna cache some of our directories like node modules. it is not necessary to run
+# npm install for every time we push something into server and travis gets it
+cache:
+  directories:
+    - node_modules
+    - client/node_module
+# in install we will tell to VM to install what ! 
+install:
+  - npm install
+# this line is specific for this architecture and this project
+  - npm run build
+script:
+# it will run the server with npm start, send it to background with & till shell can be
+# usable and if shell closes nohup would not stop the process even the shell to be kiled
+  - nohup npm run start &
+# as u may know, after npm run start command it will takes some time to our server be ready
+# to answer request, so we put sllep tag to pause our server here for 3 sec and after that
+# app will respond requests. this will prevent test failings, becuase maybe before our server
+# runs properly test being started and gets no response ! test sleep 3 in your terminal!
+  - sleep 3
+  - npm run test

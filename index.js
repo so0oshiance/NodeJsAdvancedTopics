@@ -38,7 +38,11 @@ app.use(passport.session());
 require('./routes/authRoutes')(app);
 require('./routes/blogRoutes')(app);
 
-if (['production'].includes(process.env.NODE_ENV)) {
+if (['production','ci'].includes(process.env.NODE_ENV)) {
+  /**
+   * in the production mode all of our react files which are needed for commercial 
+   * enviroment is in build folder.
+   */
   app.use(express.static('client/build'));
 
   const path = require('path');

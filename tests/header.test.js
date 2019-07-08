@@ -23,7 +23,7 @@ beforeEach(async ()=>{
      * instead of all codes above after having page.js we just need to write bellow one
      */
     page=await Page.build();
-    await page.goto('localhost:3000');
+    await page.goto('http://localhost:3000');
 });
 
 // after every test instead of closing chromium manualy we can close it after each of our tests

@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 const redis=require('redis');
-const redisUrl= 'redis://127.0.0.1:6379'
-const client=redis.createClient(redisUrl);
+const keys=require('../config/keys');
+//we move this line into keys file beacuse it maybe different in ci,dev and commercial enviroment
+//const redisUrl= 'redis://127.0.0.1:6379'
+const client=redis.createClient(keys.redisUrl);
 
  // client.get needs a callback  in real this is  like below:
     //const cachedBlog= client.get(req.user.id,()={});
