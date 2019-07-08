@@ -76,3 +76,57 @@ describe('when we logged in',async()=>{
     });
 
 });
+
+describe.only('User is not logged in',async()=>{
+    test('can not create a blog post',async()=>{
+    /**
+     * we want to simulate user making blog post without login,also we can implement this 
+     * with jest hese but we want this to be real and execute calling blog POST route in
+     * chromium using FETCH method which you can read about it. it releases in ES 2015...
+     * you can directly call fetch in browser console without importing any library, we use
+     * puppeteer evaluate method to fetch directy in chromium.
+     * this page.evaluate gets afunction to exacute and return result!
+     */
+        const result=await page.evaluate(
+           /**
+            * in this ()=>{} method of evaluate, chromium will execute the () method
+            * and the result would be returned into our test so we assign page.evaluate 
+            * to a const parameter
+            */
+            ()=>{
+
+                /**
+                 * we chain .then of fetch method to get the result which is a row data
+                 * and convert it into JSON.
+                 */
+                return  fetch('/api/blogs',{
+                    method:'POST',
+                    credentials:'same-origin',
+                    headers:{
+                        'Content-Type':'application/json'
+                    },
+                    body:JSON.stringify({title:'my other title',content:'my othe content'})
+                }).then(res=>res.json());
+            }
+        );
+            console.log(result);
+            expect(result).toEqual({ error: 'You must log in!' });
+    });
+    test('can not see blog posts',async()=>{
+        const result= await page.evaluate(
+            ()=>{
+                return fetch('/api/blogs',{
+                    method:'GET',
+                    credentials:'same-origin',
+                    headers:{
+                        'Content-Type':'application/json'
+                    }
+                   
+                }).then(res=>res.json());
+            }
+        );
+            console.log(result);
+            expect(result).toEqual({ error: 'You must log in!' });
+    });
+
+});

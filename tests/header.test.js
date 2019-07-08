@@ -32,7 +32,7 @@ afterEach(async()=>{
    await page.close();
 });
 
-test("The header has the correct text",async()=>{
+test.only("The header has the correct text",async()=>{
     /**
      * all of puppeteer methods are async so we should write async await for our test methods
      * headless is true by default to run our test as fast as possible
